@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import static com.hasani.moein.taan.finaltestmap.R.id.map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
-
+//
     private GoogleMap mMap;
 
     @Override

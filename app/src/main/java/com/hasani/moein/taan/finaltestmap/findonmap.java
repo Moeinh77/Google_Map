@@ -37,11 +37,11 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         Bundle recevier=getIntent().getExtras();
-        int x=recevier.getInt("x");
-        int y=recevier.getInt("y");
+        float x=recevier.getFloat("x");
+        float y=recevier.getFloat("y");
 
         LatLng mycordinate = new LatLng(x, y);
-        mMap.addMarker(new MarkerOptions().position(mycordinate).title("Marker in Sydney"));
+        mMap.addMarker(new MarkerOptions().position(mycordinate).title("Marker"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mycordinate));
     }
 }

@@ -40,8 +40,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     @Override
                     public void onMyLocationChange(Location arg0) {
-                        mMap.addMarker(new MarkerOptions().position(new LatLng(arg0.getLatitude(), arg0.getLongitude())).title("It's Me!"));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(arg0.getLatitude(), arg0.getLongitude())));
+                        LatLng latLng=new LatLng(arg0.getLatitude(), arg0.getLongitude());
+                        mMap.addMarker(new MarkerOptions().position(latLng).title("It's Me!"));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                        int zoomLevel = 14; //This goes up to 21
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
                     }
                 });
         }

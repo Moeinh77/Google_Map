@@ -17,92 +17,51 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener,LocationListener {
+import static com.hasani.moein.taan.finaltestmap.R.id.map;
 
-//    protected synchronized void buildGoogleApiClient() {
-//        mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .addApi(LocationServices.API)
-//                .build();
-//        mGoogleApiClient.connect();
-//    }
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
         SupportMapFragment mapFragment = (SupportMapFragment)
-                getSupportFragmentManager().findFragmentById(R.id.map);
+                getSupportFragmentManager().findFragmentById(map);
         mapFragment.getMapAsync(this);
-    }
-    //////////////////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void onLocationChanged(Location location) {
 
     }
 
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+    private void setUpMapIfNeeded() {
 
-    }
+                mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
 
-    @Override
-    public void onProviderEnabled(String provider) {
+                    @Override
+                    public void onMyLocationChange(Location arg0) {
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(arg0.getLatitude(), arg0.getLongitude())).title("It's Me!"));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(arg0.getLatitude(), arg0.getLongitude())));
+                    }
+                });
+        }
 
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
 
         try{
             mMap.setMyLocationEnabled(true);
-            Location myLocation = googleMap.getMyLocation();
 
-                Bundle recevier=getIntent().getExtras();
-                float x=recevier.getFloat("x");
-                float y=recevier.getFloat("y");
+            setUpMapIfNeeded();
 
-                LatLng mycordinate = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(mycordinate).title("Marker"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(mycordinate));
 
         } catch(SecurityException e){
 
             Toast.makeText(getApplicationContext(),"App doesn't have the permission to gps... ",Toast.LENGTH_SHORT).show();
         }
+}
 
-
-
-
-
-}}
+}

@@ -23,10 +23,6 @@ public class MainActivity extends AppCompatActivity {
         xcor=(EditText)findViewById(R.id.xcordinate);
         ycor=(EditText)findViewById(R.id.ycordinate);
 
-        x=xcor.getText().toString();
-        y=ycor.getText().toString();
-
-
         mbutton=(Button)findViewById(R.id.map);
         mbutton.setOnClickListener(new View.OnClickListener() {
             @Override

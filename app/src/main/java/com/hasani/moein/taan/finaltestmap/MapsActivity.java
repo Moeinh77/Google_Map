@@ -83,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        //buildGoogleApiClient();
+
         try{
             mMap.setMyLocationEnabled(true);
             Location myLocation = googleMap.getMyLocation();

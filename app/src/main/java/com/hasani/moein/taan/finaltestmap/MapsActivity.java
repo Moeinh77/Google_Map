@@ -1,7 +1,9 @@
 package com.hasani.moein.taan.finaltestmap;
 
+import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,12 +39,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        if(mMap==null){
+            Toast.makeText(getApplicationContext(),"Connection failed",Toast.LENGTH_SHORT).show();
+        }
+        else{
         Bundle recevier=getIntent().getExtras();
-        int x=recevier.getInt("x");
-        int y=recevier.getInt("y");
+            float x=recevier.getFloat("x");
+            float y=recevier.getFloat("y");
 
         LatLng mycordinate = new LatLng(x, y);
         mMap.addMarker(new MarkerOptions().position(mycordinate).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(mycordinate));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mycordinate));}
     }
+
+
+//
+//    private void setUpMapIfNeeded() {
+//        // Do a null check to confirm that we have not already instantiated the map.
+//        if (mMap == null) {
+//            // Try to obtain the map from the SupportMapFragment.
+//            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+//                    .getMap();
+//            mMap.setMyLocationEnabled(true);
+//            // Check if we were successful in obtaining the map.
+//            if (mMap != null) {
+//
+//
+//                mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+//
+//                    @Override
+//                    public void onMyLocationChange(Location arg0) {
+//                        // TODO Auto-generated method stub
+//
+//                        mMap.addMarker(new MarkerOptions().position(new LatLng(arg0.getLatitude(), arg0.getLongitude())).title("It's Me!"));
+//                    }
+//                });
+//
+//            }
+//        }
+//    }
 }

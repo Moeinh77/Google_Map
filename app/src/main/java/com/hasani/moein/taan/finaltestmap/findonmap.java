@@ -1,23 +1,19 @@
 package com.hasani.moein.taan.finaltestmap;
 
-import android.location.Location;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.FragmentActivity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import static com.hasani.moein.taan.finaltestmap.R.drawable.map;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
@@ -35,7 +31,6 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
     }
 
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -50,18 +45,24 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        Bundle recevier=getIntent().getExtras();
-        float a=recevier.getFloat("x");
-        float b=recevier.getFloat("y");
+        Bundle recevier = getIntent().getExtras();
+        float a = recevier.getFloat("x");
+        float b = recevier.getFloat("y");
 
-        LatLng mycordinate = new LatLng(a,b);
+        LatLng mycordinate = new LatLng(b, a);
 
 
-        mMap.addMarker(new MarkerOptions().position(mycordinate).title("Marker")
-                .snippet("This is a Test ").icon(BitmapDescriptorFactory.
+        mMap.addMarker(new MarkerOptions().position(mycordinate)
+                .icon(BitmapDescriptorFactory.
                         fromResource(R.drawable.marker2)));
-//        MapsActivity test=new MapsActivity();
+        mMap.addMarker(new MarkerOptions().position(new LatLng(35, 51))
+                .icon(BitmapDescriptorFactory.
+                        fromResource(R.drawable.karimi2)));
+
+
+//        MapsActivity test = new MapsActivity();
 //        test.onMapReady(mMap);
+
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
@@ -70,11 +71,14 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
             @Override
             public View getInfoContents(Marker marker) {
-               // ConstraintLayout layout=(ConstraintLayout)findViewById(R.id.indo)
-                View view=getLayoutInflater().inflate(R.layout.info,null);
+                // ConstraintLayout layout=(ConstraintLayout)findViewById(R.id.indo)
+                View view = getLayoutInflater().inflate(R.layout.info, null);
                 return view;
             }
         });
+        mMap.addPolyline(new PolylineOptions().add(mycordinate,new LatLng(35, 51))
+                .width(5).color(Color.GREEN));
+
         int zoomLevel = 4; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mycordinate, zoomLevel));
 

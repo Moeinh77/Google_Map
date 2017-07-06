@@ -1,14 +1,23 @@
 package com.hasani.moein.taan.finaltestmap;
 
+import android.location.Location;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import static com.hasani.moein.taan.finaltestmap.R.drawable.map;
 
 public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
@@ -21,7 +30,10 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
     }
+
 
 
     /**
@@ -33,15 +45,38 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        Bundle recevier=getIntent().getExtras();
-        float x=recevier.getFloat("x");
-        float y=recevier.getFloat("y");
 
-        LatLng mycordinate = new LatLng(x, y);
-        mMap.addMarker(new MarkerOptions().position(mycordinate).title("Marker"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(mycordinate));
+        Bundle recevier=getIntent().getExtras();
+        float a=recevier.getFloat("x");
+        float b=recevier.getFloat("y");
+
+        LatLng mycordinate = new LatLng(a,b);
+
+
+        mMap.addMarker(new MarkerOptions().position(mycordinate).title("Marker")
+                .snippet("This is a Test ").icon(BitmapDescriptorFactory.
+                        fromResource(R.drawable.marker2)));
+//        MapsActivity test=new MapsActivity();
+//        test.onMapReady(mMap);
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+               // ConstraintLayout layout=(ConstraintLayout)findViewById(R.id.indo)
+                View view=getLayoutInflater().inflate(R.layout.info,null);
+                return view;
+            }
+        });
+        int zoomLevel = 4; //This goes up to 21
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mycordinate, zoomLevel));
+
     }
 }

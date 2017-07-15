@@ -38,7 +38,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     public void AddMarker(marker_model marker){
 
-       // marker.set_Id(_ID);
+        marker.set_Id(_ID);
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues values=new ContentValues();
 
@@ -55,7 +55,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
 
     public ArrayList<marker_model> getMarkers(){
-        //markerList.clear();
+        markerList.clear();
 
         SQLiteDatabase db =getReadableDatabase();
         Cursor cursor=db.query(Constans.TABLE_NAME

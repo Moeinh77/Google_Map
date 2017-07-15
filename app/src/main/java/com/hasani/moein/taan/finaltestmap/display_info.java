@@ -31,8 +31,14 @@ public class display_info extends AppCompatActivity {
         int ID=bundle.getInt("id");
 
         marker_model mModel=modelArrayList.get(ID);
-        title.setText(mModel.getTitle().toString());
-        description.setText(mModel.getDescription().toString());
+        if(mModel.getTitle().equals("")){
+            title.setText(String.valueOf(ID));
+        }
+        else{
+            title.setText(mModel.getTitle());
+            description.setText(mModel.getDescription());
+        }
+
 
     }
 }

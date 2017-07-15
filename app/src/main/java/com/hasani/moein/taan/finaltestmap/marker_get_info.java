@@ -16,7 +16,7 @@ public class marker_get_info extends AppCompatActivity {
     private EditText title;
     private EditText description;
     private Button submit;
-    private static int id=0;
+  //  private static int id=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +31,8 @@ public class marker_get_info extends AppCompatActivity {
         if(title!=null) {
             markerModel.setTitle(title.getText().toString());
             markerModel.setDescription(description.getText().toString());
-            markerModel.set_Id(id);
-            id++;
+            //markerModel.set_Id(id);
+            //id++;
 
         }else{
             Toast.makeText(getApplicationContext(),"Please Enter A Title ",Toast.LENGTH_SHORT);
@@ -44,11 +44,6 @@ public class marker_get_info extends AppCompatActivity {
 
                 DataBaseHandler dbh=new DataBaseHandler(getApplicationContext());
                 dbh.AddMarker(markerModel);
-                Intent i=new Intent(marker_get_info.this,findonmap.class);
-//                Intent i=getIntent();
-//                Bundle mBundle=new Bundle();
-//                mBundle.putSerializable("My marker",markerModel);
-//                i.putExtras(mBundle);
                 finish();
             }
         });

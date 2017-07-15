@@ -47,8 +47,7 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                 //Bundle mBundle=new Bundle();
                 //marker_model mModel=(marker_model) marker.getTag();
                 Intent intent=new Intent(findonmap.this,display_info.class);
-               // Bundle myBundle=new Bundle();
-               // myBundle.putSerializable("marker on click",mModel);
+
                 intent.putExtra("id",marker.getId());
                 startActivity(intent);
                 return true;

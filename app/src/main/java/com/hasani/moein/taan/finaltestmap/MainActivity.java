@@ -21,8 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        xcor = (EditText) findViewById(R.id.xcordinate);
-        ycor = (EditText) findViewById(R.id.ycordinate);
+      ;
 
 //        find.setText("Open the Map");
         find = (Button) findViewById(R.id.find);

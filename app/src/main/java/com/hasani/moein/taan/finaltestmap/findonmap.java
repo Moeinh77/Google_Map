@@ -64,7 +64,7 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                 mMarker=mMap.addMarker(marker.position(latLng).icon(BitmapDescriptorFactory.
                         fromResource(R.drawable.marker2)));
                 //mMarker.setTag(markerModel);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+               // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 21));
             }
         });
 

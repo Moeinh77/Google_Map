@@ -24,9 +24,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
      db.execSQL("CREATE TABLE "+Constans.TABLE_NAME+
                      " ("+Constans.MARKER_ID+" INTEGER PRIMARY KEY, "+
-     Constans.MARKER_TITLE+" TEXT, "
-                     +Constans.MARKER_DESCRIPTION+"TEXT ,"+Constans.MARKER_ID+"INT "+");"
-     );
+     Constans.MARKER_TITLE+" TEXT, " +Constans.MARKER_DESCRIPTION+" TEXT ,"+Constans.My_MARKER_ID+" INT );");
     }
 
     @Override
@@ -42,7 +40,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         values.put(Constans.MARKER_TITLE,marker.getTitle());
         values.put(Constans.My_MARKER_ID,marker.get_Id());
-        values.put(Constans.MARKER_ID,marker.get_Id());
+       // values.put(Constans.MARKER_ID,marker.get_Id());
         values.put(Constans.MARKER_DESCRIPTION,marker.getDescription());
 
         db.insert(Constans.TABLE_NAME,null,values);
@@ -72,6 +70,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         }
         cursor.close();
         db.close();
+
         return markerList;
     }
 

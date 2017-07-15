@@ -49,7 +49,6 @@ public class marker_get_info extends AppCompatActivity {
 //                Bundle mBundle=new Bundle();
 //                mBundle.putSerializable("My marker",markerModel);
 //                i.putExtras(mBundle);
-                startActivity(i);
                 finish();
             }
         });

@@ -11,13 +11,13 @@ public class marker_model implements Serializable {
     private int _Id;
     private String description;
 
-    public int get_Id() {
-        return _Id;
-    }
+    public int get_Id() {return _Id;}
 
     public void set_Id(int _Id) {
         this._Id = _Id;
     }
+
+
 
     public String getTitle() {
         return title;
@@ -26,6 +26,8 @@ public class marker_model implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+
+
 
     public String getDescription() {
         return description;

@@ -14,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -41,7 +42,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onMyLocationChange(Location arg0) {
                         LatLng latLng=new LatLng(arg0.getLatitude(), arg0.getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(latLng).title("It's Me!"));
+                        mMap.addMarker(new MarkerOptions().position(latLng).title("It's Me!").icon(BitmapDescriptorFactory.
+                                fromResource(R.drawable.marker2)));
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                         int zoomLevel = 14; //This goes up to 21
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));

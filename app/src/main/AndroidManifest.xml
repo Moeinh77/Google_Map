@@ -37,7 +37,9 @@
             android:label="@string/title_activity_maps" />
         <activity
             android:name=".findonmap"
-            android:label="@string/title_activity_findonmap"></activity>
+            android:label="@string/title_activity_findonmap" />
+        <activity android:name=".marker_get_info" />
+        <activity android:name=".display_info"></activity>
     </application>
 
 </manifest>

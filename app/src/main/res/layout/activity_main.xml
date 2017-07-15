@@ -20,85 +20,18 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="78dp"
-        android:text="Write a cordinate"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/xcordinate"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/ycordinate"
-        app:layout_constraintHorizontal_bias="0.154"
-        app:layout_constraintLeft_toRightOf="@+id/Xcor"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text"
-        app:layout_constraintVertical_bias="0.357" />
-
-    <TextView
-        android:id="@+id/Xcor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="96dp"
-        android:text="X"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/xcordinate"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <EditText
-        android:id="@+id/ycordinate"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="157dp"
-        android:layout_marginLeft="-14dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/map"
-        app:layout_constraintLeft_toLeftOf="@+id/xcordinate" />
-
-    <TextView
-        android:id="@+id/Ycor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="97dp"
-        android:text="Y"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/ycordinate"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
     <Button
         android:id="@+id/find"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="175dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="@android:color/holo_green_light"
-        android:text="find the cordinate for me"
+        android:text="Open the map"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/map"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ycordinate"
-        app:layout_constraintVertical_bias="0.138" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

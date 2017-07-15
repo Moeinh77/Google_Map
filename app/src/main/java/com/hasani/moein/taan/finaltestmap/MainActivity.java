@@ -21,28 +21,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        xcor = (EditText) findViewById(R.id.xcordinate);
-        ycor = (EditText) findViewById(R.id.ycordinate);
+      ;
 
+//        find.setText("Open the Map");
         find = (Button) findViewById(R.id.find);
         find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
+              //try {
                     Intent intent = new Intent(MainActivity.this, findonmap.class);
-                    float a = Float.parseFloat(xcor.getText().toString());
-                    float b = Float.parseFloat(ycor.getText().toString());
-                    intent.putExtra("x", a);
-                    intent.putExtra("y", b);
+//                    float a = Float.parseFloat(xcor.getText().toString());
+//                    float b = Float.parseFloat(ycor.getText().toString());
+//                    intent.putExtra("x", a);
+//                    intent.putExtra("y", b);
 
                     startActivity(intent);
-                } catch (NumberFormatException e){
-                    Toast.makeText(getApplicationContext(),"You didn't Enter Cordinates",Toast.LENGTH_SHORT).show();
-
-                }
+//                } catch (NumberFormatException e){
+//                    Toast.makeText(getApplicationContext(),"You didn't Enter Cordinates",Toast.LENGTH_SHORT).show();
+//
+//                }
 
             }
         });
+
+
 
         mbutton = (Button) findViewById(R.id.map);
         mbutton.setOnClickListener(new View.OnClickListener() {

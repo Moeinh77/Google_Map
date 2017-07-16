@@ -27,20 +27,21 @@ public class marker_get_info extends AppCompatActivity {
         title=(EditText)findViewById(R.id.Title);
 
         final marker_model markerModel=new marker_model();
-        try {
-            markerModel.setTitle(title.getText().toString());
-            markerModel.setDescription(description.getText().toString());
 
-        }catch (NumberFormatException e){
-            Toast.makeText(getApplicationContext(),"Please Enter A Title ",Toast.LENGTH_SHORT);
-        }
 
-        DataBaseHandler dbh=new DataBaseHandler(getApplicationContext());
-        dbh.AddMarker(markerModel);
+
+
+            //Toast.makeText(getApplicationContext(),"Please Enter A Title ",Toast.LENGTH_SHORT);
+
+
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DataBaseHandler dbh=new DataBaseHandler(getApplicationContext());
+                markerModel.setTitle(title.getText().toString());
+                markerModel.setDescription(description.getText().toString());
+                dbh.AddMarker(markerModel);
                 finish();
             }
         });

@@ -86,7 +86,6 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 //        return id;
 //    }
 
-
 //    public long getMarkerPrimaryId(marker_model marker){
 //
 //        long rv = 0;
@@ -112,7 +111,5 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 ////        db.close;
 //        return rv;
 //    }
-
-
     }
 

@@ -59,7 +59,6 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 , new String[]{Constans.MARKER_ID, Constans.MARKER_TITLE,
                         Constans.MARKER_DESCRIPTION}, null, null, null, null, null);
 
-
         if (cursor.moveToFirst()) {
             do {
                 marker_model model = new marker_model();

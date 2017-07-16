@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.Marker;
+
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
@@ -79,6 +81,42 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         return markerList;
     }
+
+    public int getMarkerId(){
+
+        String getid="SELECT * FROM " + Constans.TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(getid, null);
+        int id=cursor.getCount();
+        return id;
+    }
+
+
+//    public long getMarkerPrimaryId(marker_model marker){
+//
+//        long rv = 0;
+//        SQLiteDatabase db = getReadableDatabase();
+//        String[] columns = new String[]{Constans.MARKER_ID};
+//        String whereclause = Constans.MARKER_TITLE + "=? " +marker.getTitle()
+//                + Constans.MARKER_DESCRIPTION + "=?";
+//        String[] whereargs = new String[]{
+//                marker.getTitle(),
+//                marker.getDescription()
+//        };
+//        Cursor cursor = db.query(Constans.TABLE_NAME,
+//                columns,
+//                whereclause,
+//                whereargs,
+//                null,null,null);
+//
+//        if (cursor.getCount() > 0) {
+//            cursor.moveToFirst();
+//            rv = cursor.getLong(cursor.getColumnIndex(Constans.My_MARKER_ID));
+//        }
+////        cursor.close;
+////        db.close;
+//        return rv;
+//    }
 
 
     }

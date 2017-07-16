@@ -20,8 +20,8 @@ public class display_info extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_info);
 
-        title=(TextView)findViewById(R.id.title);
-        description=(TextView)findViewById(R.id.description);
+        title=(TextView)findViewById(R.id.titlev2);
+        description=(TextView)findViewById(R.id.descriptionv2);
 
         DataBaseHandler dbh=new DataBaseHandler(getApplicationContext());
 
@@ -32,7 +32,7 @@ public class display_info extends AppCompatActivity {
 
         marker_model mModel=modelArrayList.get(ID);
 
-            title.setText(mModel.getTitle());
+            title.setText(String.valueOf(ID));
             description.setText(mModel.getDescription());
 
 

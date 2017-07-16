@@ -19,7 +19,7 @@ public class marker_get_info extends AppCompatActivity {
   //  private static int id=0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marker_get_info);
 
@@ -31,19 +31,17 @@ public class marker_get_info extends AppCompatActivity {
         if(title!=null) {
             markerModel.setTitle(title.getText().toString());
             markerModel.setDescription(description.getText().toString());
-            //markerModel.set_Id(id);
-            //id++;
 
         }else{
             Toast.makeText(getApplicationContext(),"Please Enter A Title ",Toast.LENGTH_SHORT);
         }
 
+        DataBaseHandler dbh=new DataBaseHandler(getApplicationContext());
+        dbh.AddMarker(markerModel);
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                DataBaseHandler dbh=new DataBaseHandler(getApplicationContext());
-                dbh.AddMarker(markerModel);
                 finish();
             }
         });

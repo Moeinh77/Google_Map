@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,15 +18,21 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
+
+import DataBaseHandler.DataBaseHandler;
 import DataBaseHandler.marker_model;
 
 import static android.R.attr.data;
 
 public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
+    private static final String TAG ="";
     private GoogleMap mMap;
     private Marker mMarker;
-    private static int add_to_zindex=0;
+    private ArrayList<Marker> markers=new ArrayList<>();
+    private int id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +44,10 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
         
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                Intent intent = new Intent(findonmap.this, display_info.class);
-                intent.putExtra("id", add_to_zindex);
-                add_to_zindex++;
-                startActivity(intent);
-                return true;
-            }
-        });
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -61,9 +57,23 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                 MarkerOptions marker = new MarkerOptions();
                 mMarker = mMap.addMarker(marker.position(latLng).icon(BitmapDescriptorFactory.
                         fromResource(R.drawable.marker2)));
+                Log.d(TAG, "index increased by one ");
+                markers.add(mMarker);
 
-                mMarker.setTag(mMarker.getId());
             }
         });
+
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Intent intent = new Intent(findonmap.this, display_info.class);
+                id=markers.indexOf(marker);
+                intent.putExtra("id",id);
+                startActivity(intent);
+                return true;
+            }
+        });
+
     }
 }

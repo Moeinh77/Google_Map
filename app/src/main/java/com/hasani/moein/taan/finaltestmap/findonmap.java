@@ -30,7 +30,7 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
     private static final String TAG ="";
     private GoogleMap mMap;
     private Marker mMarker;
-    private ArrayList<Marker> markers=new ArrayList<>();
+    private ArrayList<Marker> markersArrayList=new ArrayList<>();
     private int id;
 
 
@@ -41,13 +41,22 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        
+        DataBaseHandler dataBaseHandler=new DataBaseHandler(getApplicationContext());
+        ArrayList<marker_model> in_onCreate_array=dataBaseHandler.getMarkers();
+
+        if(!in_onCreate_array.isEmpty()) {
+            for (int i = 0; i < in_onCreate_array.size(); i++) {
+
+               // mMap.addMarker()
+
+
+            }
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -58,22 +67,49 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                 mMarker = mMap.addMarker(marker.position(latLng).icon(BitmapDescriptorFactory.
                         fromResource(R.drawable.marker2)));
                 Log.d(TAG, "index increased by one ");
-                markers.add(mMarker);
+
+                markersArrayList.add(mMarker);
 
             }
         });
 
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
-            public boolean onMarkerClick(Marker marker) {
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                return null;
+            }
+        });
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(findonmap.this, display_info.class);
-                id=markers.indexOf(marker);
+                id=markersArrayList.indexOf(marker);
                 intent.putExtra("id",id);
                 startActivity(intent);
-                return true;
             }
         });
+
+
+
+//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            @Override
+//            public boolean onMarkerClick(Marker marker) {
+//                Intent intent = new Intent(findonmap.this, display_info.class);
+//                id=markersArrayList.indexOf(marker);
+//                intent.putExtra("id",id);
+//                startActivity(intent);
+//                return true;
+//            }
+//        });
+
+
 
     }
 }

@@ -1,7 +1,9 @@
 package com.hasani.moein.taan.finaltestmap;
 
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -35,25 +37,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private void setUpMapIfNeeded() {
-
-                mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
-
-                    @Override
-                    public void onMyLocationChange(Location arg0) {
-                        LatLng latLng=new LatLng(arg0.getLatitude(), arg0.getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(latLng).title("It's Me!").icon(BitmapDescriptorFactory.
-                                fromResource(R.drawable.marker2)));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                        int zoomLevel = 14; //This goes up to 21
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
-                    }
-                });
-        }
-
-
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap){
 
         mMap = googleMap;
 
@@ -67,6 +52,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             Toast.makeText(getApplicationContext(),"App doesn't have the permission to gps... ",Toast.LENGTH_SHORT).show();
         }
-}
+      }
 
-}
+
+    private void setUpMapIfNeeded() {
+        try{
+            final LocationManager lm = (LocationManager) this.getSystemService(
+                    Context.LOCATION_SERVICE);
+            final Location myLoc = lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+            if (myLoc != null) {
+                mMap.addMarker(new MarkerOptions().position(new LatLng(myLoc.getLatitude(),
+                        myLoc.getLongitude())));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLoc.getLatitude(),
+                        myLoc.getLongitude()), 16));
+            }
+        } catch(SecurityException e){
+
+            Toast.makeText(getApplicationContext(),"App doesn't have the permission to gps... ",Toast.LENGTH_SHORT).show();
+        }
+    }
+   }
+

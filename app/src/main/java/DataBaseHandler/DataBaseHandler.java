@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import static android.content.ContentValues.TAG;
 public class DataBaseHandler extends SQLiteOpenHelper {
 
     private ArrayList<marker_model> markerList = new ArrayList<>();
+    private ArrayList<marker_model> mapmarkerList = new ArrayList<>();
 
     public DataBaseHandler(Context context) {
         super(context, Constans.TABLE_NAME, null, Constans.DATABASE_VERSION);
@@ -26,7 +28,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + Constans.TABLE_NAME +
                 " (" + Constans.MARKER_ID + " INTEGER PRIMARY KEY, " +
-                Constans.MARKER_TITLE + " TEXT, " + Constans.MARKER_DESCRIPTION + " TEXT );");
+                Constans.MARKER_TITLE + " TEXT, " + Constans.MARKER_DESCRIPTION + " TEXT ,"
+                +Constans.MARKER_LatLang+");");
     }
 
     @Override
@@ -74,5 +77,44 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         return markerList;
     }
+
+    ////////////
+
+    public void addMarker(Marker mapmarker){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(Constans.MARKER_LatLang, String.valueOf(mapmarker.getPosition()));
+
+
+        db.insert(Constans.TABLE_NAME, null, values);
+        db.close();
+
+        Log.d(TAG, "Lat lang: Successfully added to DB");
+
+    }
+
+    public ArrayList<marker_model> getmapMarkers() {
+        mapmarkerList.clear();
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(Constans.TABLE_NAME
+                , new String[]{Constans.MARKER_ID, Constans.MARKER_LatLang}, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+              //  marker.setTitle(cursor.getString(cursor.getColumnIndex(Constans.MARKER_TITLE)));
+              //  mapmarkerList.add(marker);
+
+
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return markerList;
+    }
+////////////
 
 }

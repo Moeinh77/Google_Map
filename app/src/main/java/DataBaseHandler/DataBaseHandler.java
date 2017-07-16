@@ -16,9 +16,6 @@ import static android.content.ContentValues.TAG;
 
 public class DataBaseHandler extends SQLiteOpenHelper {
 
-    private static int _ID =0;
-    private int ID =0;
-
     private ArrayList<marker_model> markerList=new ArrayList<>();
 
     public DataBaseHandler(Context context) {
@@ -29,7 +26,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
      db.execSQL("CREATE TABLE "+Constans.TABLE_NAME+
                      " ("+Constans.MARKER_ID+" INTEGER PRIMARY KEY, "+
-     Constans.MARKER_TITLE+" TEXT, " +Constans.MARKER_DESCRIPTION+" TEXT ,"+Constans.My_MARKER_ID+" INT );");
+     Constans.MARKER_TITLE+" TEXT, " +Constans.MARKER_DESCRIPTION+" TEXT );");
     }
 
     @Override
@@ -40,12 +37,11 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     public void AddMarker(marker_model marker){
 
-        marker.set_Id(_ID);
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues values=new ContentValues();
 
         values.put(Constans.MARKER_TITLE,marker.getTitle());
-        values.put(Constans.My_MARKER_ID,marker.get_Id());
+        //values.put(Constans.MARKER_ID,marker.get_Id());
         values.put(Constans.MARKER_DESCRIPTION,marker.getDescription());
 
         db.insert(Constans.TABLE_NAME,null,values);
@@ -53,7 +49,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         Log.d(TAG, "AddMarker: Successfully added to DB");
 
-        _ID++;
+
     }
 
     public ArrayList<marker_model> getMarkers(){
@@ -61,19 +57,18 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db =getReadableDatabase();
         Cursor cursor=db.query(Constans.TABLE_NAME
-                ,new String[]{Constans.My_MARKER_ID,Constans.MARKER_TITLE,
+                ,new String[]{Constans.MARKER_ID,Constans.MARKER_TITLE,
                         Constans.MARKER_DESCRIPTION},null,null,null,null,null);
 
         if (cursor.moveToFirst()){
             do {
-                ID=0;
+
                 marker_model model=new marker_model();
-                model.set_Id(_ID);
                 model.setDescription(cursor.getString(cursor.getColumnIndex(Constans.MARKER_DESCRIPTION)));
                 model.setTitle(cursor.getString(cursor.getColumnIndex(Constans.MARKER_TITLE)));
 
                 markerList.add(model);
-                ID++;
+
             }while(cursor.moveToNext());
         }
         cursor.close();
@@ -82,14 +77,14 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         return markerList;
     }
 
-    public int getMarkerId(){
-
-        String getid="SELECT * FROM " + Constans.TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(getid, null);
-        int id=cursor.getCount();
-        return id;
-    }
+//    public int getMarkerId(){
+//
+//        String getid="SELECT * FROM " + Constans.TABLE_NAME;
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        Cursor cursor = db.rawQuery(getid, null);
+//        int id=cursor.getCount();
+//        return id;
+//    }
 
 
 //    public long getMarkerPrimaryId(marker_model marker){

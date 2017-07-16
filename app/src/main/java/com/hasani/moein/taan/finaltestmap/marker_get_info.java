@@ -16,7 +16,6 @@ public class marker_get_info extends AppCompatActivity {
     private EditText title;
     private EditText description;
     private Button submit;
-  //  private static int id=0;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -28,11 +27,11 @@ public class marker_get_info extends AppCompatActivity {
         title=(EditText)findViewById(R.id.Title);
 
         final marker_model markerModel=new marker_model();
-        if(title!=null) {
+        try {
             markerModel.setTitle(title.getText().toString());
             markerModel.setDescription(description.getText().toString());
 
-        }else{
+        }catch (NumberFormatException e){
             Toast.makeText(getApplicationContext(),"Please Enter A Title ",Toast.LENGTH_SHORT);
         }
 

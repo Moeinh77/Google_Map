@@ -52,7 +52,6 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 //            fragmentTransaction.commit();
 //        }
 
-
         DataBaseHandler dbh=new DataBaseHandler(getApplicationContext());
         ArrayList<marker_model> onCreate_array=dbh.getObjects();
         if(!onCreate_array.isEmpty()) {

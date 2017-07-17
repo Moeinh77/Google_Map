@@ -93,8 +93,6 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
 
 
-////////////
-
     public void delete(int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();

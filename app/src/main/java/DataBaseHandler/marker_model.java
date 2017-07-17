@@ -1,5 +1,8 @@
 package DataBaseHandler;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+
 import java.io.Serializable;
 
 /**
@@ -8,15 +11,19 @@ import java.io.Serializable;
 
 public class marker_model  {
     private String title;
-    private int _Id;
     private String description;
+    private LatLng mlatLng;
 
-    public int get_Id() {return _Id;}
+    public double getLat(){return mlatLng.latitude;}
+    public double getLng(){return mlatLng.longitude;}
 
-    public void set_Id(int Id) {
-        _Id = Id;
+    public void setPosition(LatLng latLng) {
+        mlatLng=latLng;
     }
 
+    public LatLng getLatLng(){
+        return mlatLng;
+    }
 
 
     public String getTitle() {

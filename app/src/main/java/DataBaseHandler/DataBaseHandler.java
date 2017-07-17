@@ -92,7 +92,6 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         return markerList;
     }
 
-
     public void delete(int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();

@@ -104,5 +104,4 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         Log.d(TAG, "delete: ***one item deleted from db***");
         db.close();
     }
-
 }

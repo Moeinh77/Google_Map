@@ -20,22 +20,21 @@ import java.util.ArrayList;
 import DataBaseHandler.DataBaseHandler;
 import DataBaseHandler.marker_model;
 
-import static com.hasani.moein.taan.finaltestmap.R.drawable.marker2;
-
 public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Marker mMarker;
     private ArrayList<Marker> markersArrayList = new ArrayList<>();
+    private int idplus=0;
     private int id;
-
 
     public void reload() {
         DataBaseHandler dbh = new DataBaseHandler(getApplicationContext());
         ArrayList<marker_model> onOpen_array = dbh.getObjects();
 
         if (!onOpen_array.isEmpty()) {
-            for (int i = 0; i < onOpen_array.size(); i++) {
+            idplus = onOpen_array.size();
+            for (int i = 0; i < idplus; i++) {
 
                 mMap.addMarker(new MarkerOptions().position(onOpen_array.get(i).getLatLng())
                         .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("bluemarker", 60, 100))));
@@ -76,7 +75,6 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
             }
         });
 
-
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
@@ -95,7 +93,8 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
             public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(findonmap.this, display_info.class);
                 id = markersArrayList.indexOf(marker);
-                intent.putExtra("id", id);
+                int final_id= id+idplus;
+                intent.putExtra("id",final_id);
                 startActivity(intent);
             }
         });

@@ -5,7 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,6 +29,7 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     private int idplus=0;
     private int id;
+
 
     public void reload() {
         DataBaseHandler dbh = new DataBaseHandler(getApplicationContext());
@@ -58,7 +62,7 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(34.7990044,48.5145) , 11.0f) );
+        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(34.7990044,48.5145) , 11.8f) );
 
         reload();
 
@@ -72,8 +76,11 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
                 startActivity(i);
 
-                mMap.addMarker(new MarkerOptions().position(latLng)
+
+                Marker mMarker=mMap.addMarker(new MarkerOptions().position(latLng)
                         .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("bluemarker", 60, 100))));
+
+
 
             }
         });
@@ -81,24 +88,43 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
+
                 DataBaseHandler dbh=new DataBaseHandler(getApplicationContext());
+
                 Intent intent = new Intent(findonmap.this, display_info.class);
                 id = dbh.Marker_Id(marker.getPosition());
                 intent.putExtra("id",id);
                 finish();
                 startActivity(intent);
+
+
+
             }
         });
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
-                return null;
+                View v;
+                LayoutInflater inflator=(LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+                v=inflator.inflate(R.layout.info, null);
+                TextView text=(TextView)v.findViewById(R.id.title);
+                // Button ok_button=(Button) v.findViewById(R.id.ok_button);
+                DataBaseHandler dbh=new DataBaseHandler(getApplicationContext());
+                ArrayList<marker_model> onMapclickList=dbh.getObjects();
+                marker_model markerModel=onMapclickList.get(dbh.Marker_Id(marker.getPosition()));
+                text.setText(markerModel.getTitle());
+
+                return v;
+               ////
+
             }
 
             @Override
             public View getInfoContents(Marker marker) {
-                View view = getLayoutInflater().inflate(R.layout.info, null);
+
+                View view = getLayoutInflater().inflate(R.layout.bg, null);
+
                 return view;
             }
         });

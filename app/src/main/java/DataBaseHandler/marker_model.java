@@ -14,8 +14,17 @@ public class marker_model  {
     private String title;
     private String description;
     private LatLng mlatLng;
+    private int Id;
    // private ArrayList<Marker> model_markerList=new ArrayList<>();
 
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
 
     public double getLat(){return mlatLng.latitude;}
     public double getLng(){return mlatLng.longitude;}

@@ -32,13 +32,14 @@ public class display_info extends AppCompatActivity {
         final DataBaseHandler dbh=new DataBaseHandler(display_info.this);
 
         modelArrayList=dbh.getObjects();
-        Log.d(TAG, "Array List status " +
+        Log.d(TAG, "Array List " +
                 "size: "+modelArrayList.size());
 
         Bundle bundle=getIntent().getExtras();
         final int ID=bundle.getInt("id");
 
-        marker_model mModel=modelArrayList.get(ID);
+
+        final marker_model mModel=modelArrayList.get(ID);
 
             title.setText(mModel.getTitle());
             description.setText(mModel.getDescription());
@@ -46,7 +47,8 @@ public class display_info extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbh.delete_Object(ID);
+                dbh.delete_Object(mModel.getId());//changed to mModel.getId()******
+                                                  // solved the delete problem
                 startActivity(new Intent(display_info.this,findonmap.class));
                 finish();
             }

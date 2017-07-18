@@ -18,7 +18,6 @@ import static android.content.ContentValues.TAG;
 public class DataBaseHandler extends SQLiteOpenHelper {
 
     private ArrayList<marker_model> markerList = new ArrayList<>();
-    private ArrayList<LatLng> LatLngList = new ArrayList<>();
 
 
     public DataBaseHandler(Context context) {
@@ -31,26 +30,17 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 " (" + Constans.MARKER_ID + " INTEGER PRIMARY KEY, " +
                 Constans.MARKER_TITLE + " TEXT," + Constans.MARKER_DESCRIPTION + " TEXT,"
                 + Constans.MARKER_lat + " Double," + Constans.MARKER_lng + " Double);");
-        Log.d(TAG, " ***object Table created successfully*** ");
 
-//        db.execSQL("CREATE TABLE " + Constans.LIST_TABLE_NAME + "(" + Constans.MARKER_ID + " INTEGER PRIMARY KEY, "
-//                + Constans.ARRAY_COULMN + ");");
-//
-//        Log.d(TAG, " ***Array Table created successfully*** ");
+        Log.d(TAG, " ***object Table created successfully*** ");
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + Constans.TABLE_NAME);
-     //   db.execSQL("DROP TABLE IF EXISTS " + Constans.LIST_TABLE_NAME);
         onCreate(db);
     }
 
-
-//    public void onDestroy(SQLiteDatabase db){
-//        db.execSQL("DROP TABLE IF EXISTS " + Constans.TABLE_NAME);
-//    }
 
     public void AddObject(marker_model model) {
 
@@ -83,6 +73,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             do {
                 marker_model model = new marker_model();
 
+                model.setId(cursor.getInt(cursor.getColumnIndex(Constans.MARKER_ID)));//new *****
                 model.setTitle(cursor.getString(cursor.getColumnIndex(Constans.MARKER_TITLE)));
                 model.setDescription(cursor.getString(cursor.getColumnIndex(Constans.MARKER_DESCRIPTION)));
 
@@ -101,35 +92,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         return markerList;
     }
 
-    public void delete_Object(int id) {
+    public int Marker_Id(LatLng latLng) {
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(Constans.TABLE_NAME, Constans.MARKER_ID + " =?",
-                new String[]{String.valueOf(id)});
-
-        Log.d(TAG, "delete: ***one item deleted from db***");
-        db.close();
-    }
-//
-//    /////////////////////////////////////////////////////////////////
-//
-////    public void Add_Array(ArrayList<Marker> markerArrayList){
-////        for(int i=0;i<markerArrayList.size())
-////    }
-//
-//    public void Add_Marker(Marker marker) {
-//
-//        SQLiteDatabase db = getWritableDatabase();
-//
-//        ContentValues ARRAY_values = new ContentValues();
-//        ARRAY_values.put(Constans.ARRAY_MARKER_lat, marker.getPosition().latitude);
-//        ARRAY_values.put(Constans.ARRAY_MARKER_lng, marker.getPosition().longitude);
-//
-//        db.insert(Constans.LIST_TABLE_NAME, null, ARRAY_values);
-//    }
-
-    public int Marker_Id(Marker marker) {
-
+        ArrayList<LatLng> LatLngList = new ArrayList<>();//changedit position from top to here *******
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(Constans.TABLE_NAME
                 , new String[]{Constans.MARKER_ID, Constans.MARKER_lat, Constans.MARKER_lng},
@@ -149,8 +114,25 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
 
-        int m_id = LatLngList.indexOf(marker.getPosition());
+        int m_id = LatLngList.indexOf(latLng);
         return m_id;
 
     }
+
+    public void delete_Object(int id) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(Constans.TABLE_NAME,Constans.MARKER_ID+" =?",
+                new String[]{String.valueOf(id)});
+
+        Cursor cursor=db.rawQuery("SELECT * FROM "+Constans.TABLE_NAME,null);
+
+        Log.d(TAG, "delete: ***one item deleted from db*** \n"+"  Items Left in DB= "+cursor.getCount());
+
+        db.close();
+    }
+
+
+    ///////////////////////End
 }

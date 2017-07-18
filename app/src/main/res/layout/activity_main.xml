@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.hasani.moein.taan.finaltestmap.MainActivity"
-    android:background="#0091EA">
+    android:background="#607D8B">
 
     <Button
         android:id="@+id/map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="197dp"
-        android:backgroundTint="@android:color/holo_red_dark"
+        android:backgroundTint="#DD2C00"
         android:text="Show my location on map"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"

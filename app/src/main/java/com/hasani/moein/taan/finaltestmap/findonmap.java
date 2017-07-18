@@ -24,8 +24,6 @@ import DataBaseHandler.marker_model;
 public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private Marker mMarker;
-    private static ArrayList<Marker> markersArrayList = new ArrayList<>();
     private int idplus=0;
     private int id;
 
@@ -71,12 +69,11 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("from_position", latLng);
                 i.putExtra("bundle", bundle);
+
                 startActivity(i);
 
-
-                mMarker = mMap.addMarker(new MarkerOptions().position(latLng)
+                mMap.addMarker(new MarkerOptions().position(latLng)
                         .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("bluemarker", 60, 100))));
-               // markersArrayList.add(mMarker);
 
             }
         });
@@ -86,9 +83,8 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
             public void onInfoWindowClick(Marker marker) {
                 DataBaseHandler dbh=new DataBaseHandler(getApplicationContext());
                 Intent intent = new Intent(findonmap.this, display_info.class);
-                id = dbh.Marker_Id(marker);
-                int final_id= id;//+idplus;
-                intent.putExtra("id",final_id);
+                id = dbh.Marker_Id(marker.getPosition());
+                intent.putExtra("id",id);
                 startActivity(intent);
             }
         });

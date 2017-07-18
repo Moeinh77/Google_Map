@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -24,7 +25,7 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Marker mMarker;
-    private ArrayList<Marker> markersArrayList = new ArrayList<>();
+    private static ArrayList<Marker> markersArrayList = new ArrayList<>();
     private int idplus=0;
     private int id;
 
@@ -40,6 +41,8 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                         .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("bluemarker", 60, 100))));
             }
         }
+
+
     }
 
     @Override
@@ -51,12 +54,15 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         MmapFragment.getMapAsync(this);
 
-
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
+        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(34.7990044,48.5145) , 11.0f) );
+
+        reload();
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -70,8 +76,20 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
                 mMarker = mMap.addMarker(new MarkerOptions().position(latLng)
                         .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("bluemarker", 60, 100))));
-                markersArrayList.add(mMarker);
+               // markersArrayList.add(mMarker);
 
+            }
+        });
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                DataBaseHandler dbh=new DataBaseHandler(getApplicationContext());
+                Intent intent = new Intent(findonmap.this, display_info.class);
+                id = dbh.Marker_Id(marker);
+                int final_id= id;//+idplus;
+                intent.putExtra("id",final_id);
+                startActivity(intent);
             }
         });
 
@@ -88,16 +106,7 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
             }
         });
 
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                Intent intent = new Intent(findonmap.this, display_info.class);
-                id = markersArrayList.indexOf(marker);
-                int final_id= id+idplus;
-                intent.putExtra("id",final_id);
-                startActivity(intent);
-            }
-        });
+
     }
 
     public Bitmap resizeMapIcons(String iconName, int width, int height) {

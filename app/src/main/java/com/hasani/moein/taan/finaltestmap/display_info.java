@@ -46,7 +46,7 @@ public class display_info extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbh.delete(ID);
+                dbh.delete_Object(ID);
                 startActivity(new Intent(display_info.this,findonmap.class));
                 finish();
             }

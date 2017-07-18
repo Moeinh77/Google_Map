@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Moein on 7/8/2017.
@@ -13,6 +14,8 @@ public class marker_model  {
     private String title;
     private String description;
     private LatLng mlatLng;
+   // private ArrayList<Marker> model_markerList=new ArrayList<>();
+
 
     public double getLat(){return mlatLng.latitude;}
     public double getLng(){return mlatLng.longitude;}

@@ -23,13 +23,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import static com.hasani.moein.taan.finaltestmap.R.id.map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
-//
+
     private GoogleMap mMap;
+    private Marker mMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,22 +67,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
       }
 
 
-    private void setUpMapIfNeeded() {
+    public Marker setUpMapIfNeeded() {
 
         try{
             final LocationManager lm = (LocationManager) this.getSystemService(
                     Context.LOCATION_SERVICE);
             final Location myLoc = lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
             if (myLoc != null) {
-                mMap.addMarker(new MarkerOptions().position(new LatLng(myLoc.getLatitude(),
-                        myLoc.getLongitude())).icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("bluemarker",60,100))));
+                mMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(myLoc.getLatitude(),
+                        myLoc.getLongitude())).icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("bluemarker", 60, 100))));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLoc.getLatitude(),
                         myLoc.getLongitude()), 16));
             }
         } catch(SecurityException e){
-
+            
             Toast.makeText(getApplicationContext(),"App doesn't have the permission to gps... ",Toast.LENGTH_SHORT).show();
         }
+        return mMarker;
     }
     public Bitmap resizeMapIcons(String iconName, int width, int height){
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getPackageName()));

@@ -85,6 +85,7 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                 Intent intent = new Intent(findonmap.this, display_info.class);
                 id = dbh.Marker_Id(marker.getPosition());
                 intent.putExtra("id",id);
+                finish();
                 startActivity(intent);
             }
         });

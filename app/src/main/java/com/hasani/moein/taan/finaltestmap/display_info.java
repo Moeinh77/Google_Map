@@ -21,6 +21,13 @@ public class display_info extends AppCompatActivity {
     private ArrayList<marker_model> modelArrayList=new ArrayList<>();
 
     @Override
+    protected void onDestroy() {
+        startActivity(new Intent(display_info.this,findonmap.class));
+        finish();
+        super.onDestroy();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_info);
@@ -49,7 +56,7 @@ public class display_info extends AppCompatActivity {
             public void onClick(View v) {
                 dbh.delete_Object(mModel.getId());//changed to mModel.getId()******
                                                   // solved the delete problem
-                startActivity(new Intent(display_info.this,findonmap.class));
+               //startActivity(new Intent(display_info.this,findonmap.class));
                 finish();
             }
         });

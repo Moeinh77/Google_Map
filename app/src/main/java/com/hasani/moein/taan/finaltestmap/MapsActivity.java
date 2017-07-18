@@ -1,9 +1,14 @@
 package com.hasani.moein.taan.finaltestmap;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -50,19 +55,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         } catch(SecurityException e){
 
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts("package", getPackageName(), null);
+            intent.setData(uri);
+            startActivity(intent);
             Toast.makeText(getApplicationContext(),"App doesn't have the permission to gps... ",Toast.LENGTH_SHORT).show();
         }
       }
 
 
     private void setUpMapIfNeeded() {
+
         try{
             final LocationManager lm = (LocationManager) this.getSystemService(
                     Context.LOCATION_SERVICE);
             final Location myLoc = lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
             if (myLoc != null) {
                 mMap.addMarker(new MarkerOptions().position(new LatLng(myLoc.getLatitude(),
-                        myLoc.getLongitude())));
+                        myLoc.getLongitude())).icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("bluemarker",60,100))));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLoc.getLatitude(),
                         myLoc.getLongitude()), 16));
             }
@@ -71,5 +82,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(getApplicationContext(),"App doesn't have the permission to gps... ",Toast.LENGTH_SHORT).show();
         }
     }
+    public Bitmap resizeMapIcons(String iconName, int width, int height){
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getPackageName()));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+        return resizedBitmap;
+    }
+
    }
 

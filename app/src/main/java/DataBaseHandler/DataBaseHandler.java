@@ -74,21 +74,22 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 marker_model model = new marker_model();
-                model.setDescription(cursor.getString(cursor.getColumnIndex(Constans.MARKER_DESCRIPTION)));
-                model.setTitle(cursor.getString(cursor.getColumnIndex(Constans.MARKER_TITLE)));
 
-                LatLng latlng=new LatLng(cursor.getDouble(cursor.getColumnIndex(Constans.MARKER_lat))
-                        ,cursor.getDouble(cursor.getColumnIndex(Constans.MARKER_lng)));
+                model.setTitle(cursor.getString(cursor.getColumnIndex(Constans.MARKER_TITLE)));
+                model.setDescription(cursor.getString(cursor.getColumnIndex(Constans.MARKER_DESCRIPTION)));
+
+                LatLng latlng=new LatLng(
+                                cursor.getDouble(cursor.getColumnIndex(Constans.MARKER_lat))
+                        ,cursor.getDouble(cursor.getColumnIndex(Constans.MARKER_lng))
+                );
                 model.setPosition(latlng);
 
                 markerList.add(model);
-
 
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
-
         return markerList;
     }
 

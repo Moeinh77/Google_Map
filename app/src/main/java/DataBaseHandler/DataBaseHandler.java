@@ -5,12 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static android.content.ContentValues.TAG;
 
@@ -29,7 +30,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + Constans.TABLE_NAME +
                 " (" + Constans.MARKER_ID + " INTEGER PRIMARY KEY, " +
                 Constans.MARKER_TITLE + " TEXT," + Constans.MARKER_DESCRIPTION + " TEXT,"
-                + Constans.MARKER_lat + " Double," + Constans.MARKER_lng + " Double);");
+                + Constans.MARKER_lat + " Double," + Constans.MARKER_lng + " Double," + Constans.IMAGE_ADDRESS
+                + " TEXT,"+Constans.DATE_NAME+" LONG);");
 
         Log.d(TAG, " ***object Table created successfully*** ");
 
@@ -51,6 +53,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         values.put(Constans.MARKER_DESCRIPTION, model.getDescription());
         values.put(Constans.MARKER_lat, model.getLat());
         values.put(Constans.MARKER_lng, model.getLng());
+        values.put(Constans.IMAGE_ADDRESS, model.getImageaddress().toString());//new *****
+        values.put(Constans.DATE_NAME,java.lang.System.currentTimeMillis());//new *****
 
         db.insert(Constans.TABLE_NAME, null, values);
         db.close();
@@ -66,16 +70,25 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(Constans.TABLE_NAME
                 , new String[]{Constans.MARKER_ID, Constans.MARKER_TITLE,
-                        Constans.MARKER_DESCRIPTION, Constans.MARKER_lat, Constans.MARKER_lng},
+                        Constans.MARKER_DESCRIPTION, Constans.MARKER_lat, Constans.MARKER_lng,
+                        Constans.IMAGE_ADDRESS,Constans.DATE_NAME},
                 null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
                 marker_model model = new marker_model();
 
-                model.setId(cursor.getInt(cursor.getColumnIndex(Constans.MARKER_ID)));//new *****
+                model.setImageaddress(Uri.parse(cursor.getString(cursor.getColumnIndex(Constans.IMAGE_ADDRESS))));//new *****
+                model.setId(cursor.getInt(cursor.getColumnIndex(Constans.MARKER_ID)));
                 model.setTitle(cursor.getString(cursor.getColumnIndex(Constans.MARKER_TITLE)));
                 model.setDescription(cursor.getString(cursor.getColumnIndex(Constans.MARKER_DESCRIPTION)));
+
+                java.text.DateFormat dateFormat=java.text.DateFormat.getDateInstance();//new ***
+                String date_=dateFormat.format
+                        (new Date(cursor.getLong(cursor.getColumnIndex(Constans.DATE_NAME))).getTime());
+
+
+                model.setDate(date_);
 
                 LatLng latlng = new LatLng(
                         cursor.getDouble(cursor.getColumnIndex(Constans.MARKER_lat))
@@ -123,12 +136,12 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.delete(Constans.TABLE_NAME,Constans.MARKER_ID+" =?",
+        db.delete(Constans.TABLE_NAME, Constans.MARKER_ID + " =?",
                 new String[]{String.valueOf(id)});
 
-        Cursor cursor=db.rawQuery("SELECT * FROM "+Constans.TABLE_NAME,null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Constans.TABLE_NAME, null);
 
-        Log.d(TAG, "delete: ***one item deleted from db*** \n"+"  Items Left in DB= "+cursor.getCount());
+        Log.d(TAG, "delete: ***one item deleted from db*** \n" + "  Items Left in DB= " + cursor.getCount());
 
         db.close();
     }

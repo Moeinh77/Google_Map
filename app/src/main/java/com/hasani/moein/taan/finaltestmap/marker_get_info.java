@@ -84,6 +84,8 @@ public class marker_get_info extends AppCompatActivity {
                     Log.d(TAG, " get_info onClick:Marker added to db ");
 
                     finish();
+                    Intent i=new Intent(marker_get_info.this,findonmap.class);
+                    startActivity(i);
                 }
             }
         });

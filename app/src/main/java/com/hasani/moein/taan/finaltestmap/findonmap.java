@@ -45,7 +45,7 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
             for (int i = 0; i < idplus; i++) {
 
                 mMap.addMarker(new MarkerOptions().position(onOpen_array.get(i).getLatLng())
-                        .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons_bitmap(onOpen_array.get(i).getBitmap(),130,160))));//resizeMapIcons("bluemarker", 60, 100))));
+                        .icon(BitmapDescriptorFactory.fromBitmap(getRoundedCornerBitmap(resizeMapIcons_bitmap(onOpen_array.get(i).getBitmap(),130,160)))));//resizeMapIcons("bluemarker", 60, 100))));
             }
         }
 
@@ -82,8 +82,8 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                 startActivity(i);
 
 
-                 mMap.addMarker(new MarkerOptions().position(latLng)
-                        .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("bluemarker", 60, 100))));
+//                 mMap.addMarker(new MarkerOptions().position(latLng)
+//                        .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("bluemarker", 60, 100))));
                  finish();
 
             }

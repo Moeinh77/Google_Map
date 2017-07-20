@@ -3,6 +3,12 @@ package com.hasani.moein.taan.finaltestmap;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -39,7 +45,7 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
             for (int i = 0; i < idplus; i++) {
 
                 mMap.addMarker(new MarkerOptions().position(onOpen_array.get(i).getLatLng())
-                        .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("bluemarker", 60, 100))));
+                        .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons_bitmap(onOpen_array.get(i).getBitmap(),130,160))));//resizeMapIcons("bluemarker", 60, 100))));
             }
         }
 
@@ -76,7 +82,7 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                 startActivity(i);
 
 
-                Marker mMarker = mMap.addMarker(new MarkerOptions().position(latLng)
+                 mMap.addMarker(new MarkerOptions().position(latLng)
                         .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("bluemarker", 60, 100))));
 
 
@@ -134,5 +140,33 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", getPackageName()));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
+    }
+
+    public Bitmap resizeMapIcons_bitmap(Bitmap imageBitmap,int width, int height) {
+        //Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", getPackageName()));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+        return resizedBitmap;
+    }
+
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        final float roundPx = 12;
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
     }
 }

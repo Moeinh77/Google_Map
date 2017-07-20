@@ -1,5 +1,6 @@
 package DataBaseHandler;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -19,6 +20,15 @@ public class marker_model  {
     private int Id;
     private Uri imageaddress;
     private String date;
+    private Bitmap bitmap;
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
 
     public String getDate() {
         return date;

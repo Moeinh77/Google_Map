@@ -13,6 +13,7 @@ public class Constans {
     public static final String MARKER_DESCRIPTION="MARKER_DESCRIPTION";
     public static final String IMAGE_ADDRESS="IMAGE_ADDRESS";
     public static final String DATE_NAME="DATE_NAME";
+    public static final String Bitmap_NAME="Bitmap_NAME";
 
 
 }

@@ -31,7 +31,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 " (" + Constans.MARKER_ID + " INTEGER PRIMARY KEY, " +
                 Constans.MARKER_TITLE + " TEXT," + Constans.MARKER_DESCRIPTION + " TEXT,"
                 + Constans.MARKER_lat + " Double," + Constans.MARKER_lng + " Double," + Constans.IMAGE_ADDRESS
-                + " TEXT,"+Constans.DATE_NAME+" LONG);");
+                + " TEXT,"+Constans.DATE_NAME+" LONG,"+Constans.Bitmap_NAME+" BITMAP);");
 
         Log.d(TAG, " ***object Table created successfully*** ");
 
@@ -49,11 +49,16 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
+
+
+        //converting bitmap to byte array
+        values.put(Constans.Bitmap_NAME,DbBitmapUtility.getBytes(model.getBitmap()));
+        /////////////////////
         values.put(Constans.MARKER_TITLE, model.getTitle());
         values.put(Constans.MARKER_DESCRIPTION, model.getDescription());
         values.put(Constans.MARKER_lat, model.getLat());
         values.put(Constans.MARKER_lng, model.getLng());
-        values.put(Constans.IMAGE_ADDRESS, model.getImageaddress().toString());//new *****
+       // values.put(Constans.IMAGE_ADDRESS, model.getImageaddress().toString());//new *****
         values.put(Constans.DATE_NAME,java.lang.System.currentTimeMillis());//new *****
 
         db.insert(Constans.TABLE_NAME, null, values);
@@ -71,14 +76,18 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(Constans.TABLE_NAME
                 , new String[]{Constans.MARKER_ID, Constans.MARKER_TITLE,
                         Constans.MARKER_DESCRIPTION, Constans.MARKER_lat, Constans.MARKER_lng,
-                        Constans.IMAGE_ADDRESS,Constans.DATE_NAME},
+                        Constans.IMAGE_ADDRESS,Constans.DATE_NAME,Constans.Bitmap_NAME},
                 null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
                 marker_model model = new marker_model();
 
-                model.setImageaddress(Uri.parse(cursor.getString(cursor.getColumnIndex(Constans.IMAGE_ADDRESS))));//new *****
+                //Getting Bitmap fromdb
+                model.setBitmap(DbBitmapUtility.getImage(cursor.getBlob(cursor.getColumnIndex(Constans.Bitmap_NAME))));//new *****
+                //////////////////////////////
+
+               // model.setImageaddress(Uri.parse(cursor.getString(cursor.getColumnIndex(Constans.IMAGE_ADDRESS))));//new *****
                 model.setId(cursor.getInt(cursor.getColumnIndex(Constans.MARKER_ID)));
                 model.setTitle(cursor.getString(cursor.getColumnIndex(Constans.MARKER_TITLE)));
                 model.setDescription(cursor.getString(cursor.getColumnIndex(Constans.MARKER_DESCRIPTION)));

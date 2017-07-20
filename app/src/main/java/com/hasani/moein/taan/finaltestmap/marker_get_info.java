@@ -1,6 +1,8 @@
 package com.hasani.moein.taan.finaltestmap;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -94,7 +96,12 @@ public class marker_get_info extends AppCompatActivity {
             if (requestCode == request_code) {
                 Uri photoFileUri = data.getData();
                 testview.setImageURI(photoFileUri);
-                markerModel.setImageaddress(photoFileUri);
+                //markerModel.setImageaddress(photoFileUri);
+
+                BitmapDrawable drawable = (BitmapDrawable) testview.getDrawable();//new***
+                Bitmap bitmap = drawable.getBitmap();
+                markerModel.setBitmap(bitmap);
+
                 Log.d(TAG, "onActivityResult: Uri set *****");
                 super.onActivityResult(requestCode, resultCode, data);
             }

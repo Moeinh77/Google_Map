@@ -45,7 +45,8 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
             for (int i = 0; i < idplus; i++) {
 
                 mMap.addMarker(new MarkerOptions().position(onOpen_array.get(i).getLatLng())
-                        .icon(BitmapDescriptorFactory.fromBitmap(getRoundedCornerBitmap(resizeMapIcons_bitmap(onOpen_array.get(i).getBitmap(),130,160)))));//resizeMapIcons("bluemarker", 60, 100))));
+                        .icon(BitmapDescriptorFactory.fromBitmap
+                                (getRoundedBitmap(resizeMapIcons_bitmap(onOpen_array.get(i).getBitmap(),130,160)))));//resizeMapIcons("bluemarker", 60, 100))));
             }
         }
 
@@ -135,19 +136,19 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
 
     }
-
+    //////////////////////////////////////////////////////
     public Bitmap resizeMapIcons(String iconName, int width, int height) {
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", getPackageName()));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
     }
-
+    //////////////////////////////////////////////////////
     public Bitmap resizeMapIcons_bitmap(Bitmap imageBitmap,int width, int height) {
         //Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", getPackageName()));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
     }
-
+    //////////////////////////////////////////////////////
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -167,6 +168,28 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
+        return output;
+    }
+//////////////////////////////////////////////////////
+    public Bitmap getRoundedBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
+                bitmap.getWidth() / 2, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        //Bitmap _bmp = Bitmap.createScaledBitmap(output, 60, 60, false);
+        //return _bmp;
         return output;
     }
 }

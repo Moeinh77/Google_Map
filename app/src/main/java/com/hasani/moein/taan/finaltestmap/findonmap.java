@@ -39,7 +39,6 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
     public void reload() {
         DataBaseHandler dbh = new DataBaseHandler(getApplicationContext());
         ArrayList<marker_model> onOpen_array = dbh.getObjects();
-
         if (!onOpen_array.isEmpty()) {
             idplus = onOpen_array.size();
             for (int i = 0; i < idplus; i++) {
@@ -144,7 +143,6 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
     }
     //////////////////////////////////////////////////////
     public Bitmap resizeMapIcons_bitmap(Bitmap imageBitmap,int width, int height) {
-        //Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", getPackageName()));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
     }

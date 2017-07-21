@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.hasani.moein.taan.finaltestmap"
-        minSdkVersion 19
+        minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+dependencies {
+    compile 'com.google.maps.android:android-maps-utils:0.5+'
 }
 
 dependencies {

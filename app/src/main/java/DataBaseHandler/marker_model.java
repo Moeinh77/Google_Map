@@ -1,5 +1,8 @@
 package DataBaseHandler;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
@@ -15,8 +18,33 @@ public class marker_model  {
     private String description;
     private LatLng mlatLng;
     private int Id;
-   // private ArrayList<Marker> model_markerList=new ArrayList<>();
+    private Uri imageaddress;
+    private String date;
+    private Bitmap bitmap;
 
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String data) {
+        this.date = data;
+    }
+
+    public Uri getImageaddress() {
+        return imageaddress;
+    }
+
+    public void setImageaddress(Uri imageaddress) {
+        this.imageaddress = imageaddress;
+    }
 
     public int getId() {
         return Id;

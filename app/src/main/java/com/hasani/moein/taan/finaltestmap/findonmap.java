@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -46,11 +47,19 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
         {
             idplus = onOpen_array.size();
-            for (int i = 0; i < idplus; i++) {
 
-                mMap.addMarker(new MarkerOptions().position(onOpen_array.get(i).getLatLng())
+            for (int i = 0; i < idplus; i++) {
+                if(onOpen_array.get(i).getImageaddress().equals(Uri.parse("null")))
+                {
+                    mMap.addMarker(new MarkerOptions().position(onOpen_array.get(i).getLatLng())
+                            .icon(BitmapDescriptorFactory.fromBitmap
+                                                    (resizeMapIcons("bluemarker",60,100))));
+                }else{
+                    mMap.addMarker(new MarkerOptions().position(onOpen_array.get(i).getLatLng())
                         .icon(BitmapDescriptorFactory.fromBitmap
                                 (getRoundedBitmap(resizeMapIcons_bitmap(onOpen_array.get(i).getBitmap(), 130, 160)))));
+                    }
+
             }
         }
     }
@@ -107,7 +116,7 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
                 DataBaseHandler dbh = new DataBaseHandler(getApplicationContext());
 
-                //getting marker id based on its LatLng from db
+                //getting marker id based on its LatLng from db(choon marker ra darim na object shamel etelaat ra)
                 Intent intent = new Intent(findonmap.this, display_info.class);
                 id = dbh.Marker_Id(marker.getPosition());
                 intent.putExtra("id", id);

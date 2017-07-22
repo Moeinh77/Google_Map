@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 /**
  * Created by Moein on 7/20/2017.
  */
+//*****baraye inke BitMap ghabel save dar DB bashad az in class estefade mikonim *****
 
 public class DbBitmapUtility {
 

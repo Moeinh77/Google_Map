@@ -57,12 +57,8 @@ public class display_info extends AppCompatActivity {
             date.setText(mModel.getDate());
             title.setText(mModel.getTitle());
             description.setText(mModel.getDescription());
-//        if(mModel.getImageaddress().toString().equals("null")){
-//            Log.d(TAG, "Empty Uri*****");
-//        } else{
+            image.setImageBitmap(getRoundedCornerBitmap(mModel.getBitmap()));
 
-            image.setImageBitmap(mModel.getBitmap());
-        //}
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +72,7 @@ public class display_info extends AppCompatActivity {
 
     }
 
-    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {//gerd kardan dore aks
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
@@ -100,7 +96,9 @@ public class display_info extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        startActivity(new Intent(display_info.this,findonmap.class));
+        startActivity(new Intent(display_info.this,findonmap.class));//choon be azay baz shodan in activity activity map baste shod
+                                                                     //dar natije moghe kharej shodan az in activity bayad
+                                                                     // dobare map ra baz konim
         finish();
         super.onDestroy();
     }

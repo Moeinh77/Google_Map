@@ -58,7 +58,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         values.put(Constans.MARKER_DESCRIPTION, model.getDescription());
         values.put(Constans.MARKER_lat, model.getLat());
         values.put(Constans.MARKER_lng, model.getLng());
-       // values.put(Constans.IMAGE_ADDRESS, model.getImageaddress().toString());//new *****
+        values.put(Constans.IMAGE_ADDRESS, model.getImageaddress().toString());//new *****
         values.put(Constans.DATE_NAME,java.lang.System.currentTimeMillis());//new *****
 
         db.insert(Constans.TABLE_NAME, null, values);
@@ -87,7 +87,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 model.setBitmap(DbBitmapUtility.getImage(cursor.getBlob(cursor.getColumnIndex(Constans.Bitmap_NAME))));//new *****
                 //////////////////////////////
 
-               // model.setImageaddress(Uri.parse(cursor.getString(cursor.getColumnIndex(Constans.IMAGE_ADDRESS))));//new *****
+                //model.setImageaddress(Uri.parse(cursor.getString(cursor.getColumnIndex(Constans.IMAGE_ADDRESS))));//new *****
                 model.setId(cursor.getInt(cursor.getColumnIndex(Constans.MARKER_ID)));
                 model.setTitle(cursor.getString(cursor.getColumnIndex(Constans.MARKER_TITLE)));
                 model.setDescription(cursor.getString(cursor.getColumnIndex(Constans.MARKER_DESCRIPTION)));

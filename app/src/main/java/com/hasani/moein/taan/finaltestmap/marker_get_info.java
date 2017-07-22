@@ -43,7 +43,7 @@ public class marker_get_info extends AppCompatActivity {
         title = (EditText) findViewById(R.id.Title);
         choose_bt = (Button) findViewById(R.id.choose_button);
 
-        markerModel.setImageaddress(Uri.parse("null"));//*********test
+        //markerModel.setImageaddress(Uri.parse("null"));//*********test
         choose_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +84,8 @@ public class marker_get_info extends AppCompatActivity {
                     Log.d(TAG, " get_info onClick:Marker added to db ");
 
                     finish();
-
+                    Intent i=new Intent(marker_get_info.this,findonmap.class);
+                    startActivity(i);
                 }
             }
         });
@@ -109,10 +110,5 @@ public class marker_get_info extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        Intent i=new Intent(marker_get_info.this,findonmap.class);
-        startActivity(i);
-        super.onDestroy();
-    }
+
 }

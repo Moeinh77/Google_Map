@@ -18,9 +18,11 @@ android {
         }
     }
 }
-
 dependencies {
     compile 'com.google.maps.android:android-maps-utils:0.5+'
+}
+
+dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

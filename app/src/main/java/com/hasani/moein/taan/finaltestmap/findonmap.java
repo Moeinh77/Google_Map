@@ -36,21 +36,26 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
     private int id;
 
 
+    //bringing all markers back from db when mapactivity reopens
     public void reload() {
         DataBaseHandler dbh = new DataBaseHandler(getApplicationContext());
         ArrayList<marker_model> onOpen_array = dbh.getObjects();
-        if (!onOpen_array.isEmpty()) {
+        if (!onOpen_array.isEmpty()) //vojood in if baraye in ast ke bebinim aya chizi az ghabl dar db zakhire kardim
+                                     //agar nakardim ke kare khasi lazem nis agar kardebashim hame marker hara dobare misazim
+                                    //ba estefade azetelaat mojood dar db
+
+        {
             idplus = onOpen_array.size();
             for (int i = 0; i < idplus; i++) {
 
                 mMap.addMarker(new MarkerOptions().position(onOpen_array.get(i).getLatLng())
                         .icon(BitmapDescriptorFactory.fromBitmap
-                                (getRoundedBitmap(resizeMapIcons_bitmap(onOpen_array.get(i).getBitmap(),130,160)))));//resizeMapIcons("bluemarker", 60, 100))));
+                                (getRoundedBitmap(resizeMapIcons_bitmap(onOpen_array.get(i).getBitmap(), 130, 160)))));
             }
         }
-
-
     }
+    ////////////////////////////////////////////////////////////////////////
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,29 +68,36 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
     }
 
+
+    ////////////////////////////har dafe ke ma bekhahim hame marker ha load shavand bayad in method seda shvad
+    //seda shodan in methid nia ba baz shodan dobare in class anjam mishavad pas ma az startactivity ha baray
+    //har bar vared shodan be inja estefade mikonaim ke inja ba estefade a function e reload hame marker ha
+    //load mishavand
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(34.7990044, 48.5145), 11.8f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(34.7990044, 48.5145), 12.8f));
 
+        //calling reload on onMap ready
         reload();
+        /////////////////////////////////
+
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 Intent i = new Intent(findonmap.this, marker_get_info.class);
+
+                //sending Marker LatLng to getinfo acticity
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("from_position", latLng);
                 i.putExtra("bundle", bundle);
+                ////////////////////////////////////////////
 
                 startActivity(i);
-
-
-//                 mMap.addMarker(new MarkerOptions().position(latLng)
-//                        .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("bluemarker", 60, 100))));
-                 finish();
-
+                finish();//baraye inke dota activity az in safe nadashte bashim
             }
         });
 
@@ -95,13 +107,14 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
                 DataBaseHandler dbh = new DataBaseHandler(getApplicationContext());
 
+                //getting marker id based on its LatLng from db
                 Intent intent = new Intent(findonmap.this, display_info.class);
                 id = dbh.Marker_Id(marker.getPosition());
                 intent.putExtra("id", id);
-                finish();
+                ///////////////////////////////////////////////////
+
+                finish();//baraye inke dota activity az in safe nadashte bashim
                 startActivity(intent);
-
-
             }
         });
 
@@ -113,15 +126,14 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                 LayoutInflater inflator = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                 v = inflator.inflate(R.layout.info, null);
                 TextView text = (TextView) v.findViewById(R.id.title);
-                // Button ok_button=(Button) v.findViewById(R.id.ok_button);
+
+                //setting info on infowindows by getting the right info from db
                 DataBaseHandler dbh = new DataBaseHandler(getApplicationContext());
                 ArrayList<marker_model> onMapclickList = dbh.getObjects();
                 marker_model markerModel = onMapclickList.get(dbh.Marker_Id(marker.getPosition()));
                 text.setText(markerModel.getTitle());
-
+                ///////////////////////////////////////////////////////////////////
                 return v;
-                ////
-
             }
 
             @Override
@@ -135,18 +147,21 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
 
     }
-    //////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////taghire size bitmap ha ba gereftan address anha (bar asas name peyda mikond)
     public Bitmap resizeMapIcons(String iconName, int width, int height) {
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", getPackageName()));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
     }
-    //////////////////////////////////////////////////////
-    public Bitmap resizeMapIcons_bitmap(Bitmap imageBitmap,int width, int height) {
+
+    //////////////////////////////////////////////////////taghire size bit map ha ba gereftan anha be onvan argument
+    public Bitmap resizeMapIcons_bitmap(Bitmap imageBitmap, int width, int height) {
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
     }
-    //////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////aks ba gooshe zavie dar
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -168,7 +183,8 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
 
         return output;
     }
-//////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////aks be soorat dayere ee
     public Bitmap getRoundedBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -181,13 +197,10 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
-        // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
         canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
                 bitmap.getWidth() / 2, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
-        //Bitmap _bmp = Bitmap.createScaledBitmap(output, 60, 60, false);
-        //return _bmp;
         return output;
     }
 }

@@ -1,4 +1,4 @@
-package com.hasani.moein.taan.finaltestmap;
+package com.hasani.moein.taan.events;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,7 +8,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +15,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import DataBaseHandler.DataBaseHandler;
 import DataBaseHandler.marker_model;
+import Map_Utilities.DbBitmapUtility;
 
 public class display_info extends AppCompatActivity {
 
@@ -57,7 +56,8 @@ public class display_info extends AppCompatActivity {
             date.setText(mModel.getDate());
             title.setText(mModel.getTitle());
             description.setText(mModel.getDescription());
-            image.setImageBitmap(getRoundedCornerBitmap(mModel.getBitmap()));
+            image.setImageBitmap(getRoundedCornerBitmap(DbBitmapUtility.getImage(
+                    mModel.getBitmap())));
 
 
         delete.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +96,7 @@ public class display_info extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        startActivity(new Intent(display_info.this,findonmap.class));//choon be azay baz shodan in activity activity map baste shod
+        startActivity(new Intent(display_info.this,Main_MAP.class));//choon be azay baz shodan in activity activity map baste shod
                                                                      //dar natije moghe kharej shodan az in activity bayad
                                                                      // dobare map ra baz konim
         finish();

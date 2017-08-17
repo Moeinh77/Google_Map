@@ -20,13 +20,13 @@ public class marker_model  {
     private int Id;
     private Uri imageaddress;
     private String date;
-    private Bitmap bitmap;
+    private byte[] bitmap;
 
-    public Bitmap getBitmap() {
+    public byte[] getBitmap() {
         return bitmap;
     }
 
-    public void setBitmap(Bitmap bitmap) {
+    public void setBitmap(byte[] bitmap) {
         this.bitmap = bitmap;
     }
 

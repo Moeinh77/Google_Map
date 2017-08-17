@@ -1,5 +1,6 @@
-package com.hasani.moein.taan.finaltestmap;
+package com.hasani.moein.taan.events;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,12 +10,16 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,13 +34,13 @@ import java.util.ArrayList;
 
 import DataBaseHandler.DataBaseHandler;
 import DataBaseHandler.marker_model;
+import Map_Utilities.DbBitmapUtility;
 
-public class findonmap extends FragmentActivity implements OnMapReadyCallback {
+public class Main_MAP extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private int idplus = 0;
     private int id;
-
 
     //bringing all markers back from db when mapactivity reopens
     public void reload() {
@@ -57,7 +62,7 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                 }else{
                     mMap.addMarker(new MarkerOptions().position(onOpen_array.get(i).getLatLng())
                         .icon(BitmapDescriptorFactory.fromBitmap
-                                (getRoundedBitmap(resizeMapIcons_bitmap(onOpen_array.get(i).getBitmap(), 130, 160)))));
+                                (getRoundedBitmap(resizeMapIcons_bitmap(DbBitmapUtility.getImage(onOpen_array.get(i).getBitmap()), 130, 160)))));
                     }
 
             }
@@ -69,35 +74,71 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
-
+        setContentView(R.layout.main_map);
         SupportMapFragment MmapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         MmapFragment.getMapAsync(this);
-
+        //Find_me();
     }
 
+    //find me on map
+    private void Find_me(){
 
-    ////////////////////////////har dafe ke ma bekhahim hame marker ha load shavand bayad in method seda shvad
-    //seda shodan in methid nia ba baz shodan dobare in class anjam mishavad pas ma az startactivity ha baray
-    //har bar vared shodan be inja estefade mikonaim ke inja ba estefade a function e reload hame marker ha
-    //load mishavand
+        try{
+            mMap.setMyLocationEnabled(true);
+
+            setUpMapIfNeeded();
+
+
+        } catch(SecurityException e){
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts("package", getPackageName(), null);
+            intent.setData(uri);
+            startActivity(intent);
+            Toast.makeText(getApplicationContext(),"App doesn't have the permission to gps... ",Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void setUpMapIfNeeded() {
+
+        try{
+            final LocationManager lm = (LocationManager) this.getSystemService(
+                    Context.LOCATION_SERVICE);
+            final Location myLoc = lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+            if (myLoc != null) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLoc.getLatitude(),
+                        myLoc.getLongitude()), 13));
+            }
+        } catch(SecurityException e){
+
+            Toast.makeText(getApplicationContext(),"Please give the app GPS Access ",Toast.LENGTH_SHORT).show();
+        }
+    }
+    //////////////////////////////////////////////////////////
+
+
+    @Override
+    protected void onResume() {
+        SupportMapFragment MmapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        MmapFragment.getMapAsync(this);
+        super.onResume();
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(34.7990044, 48.5145), 12.8f));
-
-        //calling reload on onMap ready
         reload();
+        Find_me();
+
         /////////////////////////////////
 
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                Intent i = new Intent(findonmap.this, marker_get_info.class);
+                Intent i = new Intent(Main_MAP.this, marker_get_info.class);
 
                 //sending Marker LatLng to getinfo acticity
                 Bundle bundle = new Bundle();
@@ -106,7 +147,6 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                 ////////////////////////////////////////////
 
                 startActivity(i);
-                finish();//baraye inke dota activity az in safe nadashte bashim
             }
         });
 
@@ -117,12 +157,11 @@ public class findonmap extends FragmentActivity implements OnMapReadyCallback {
                 DataBaseHandler dbh = new DataBaseHandler(getApplicationContext());
 
                 //getting marker id based on its LatLng from db(choon marker ra darim na object shamel etelaat ra)
-                Intent intent = new Intent(findonmap.this, display_info.class);
+                Intent intent = new Intent(Main_MAP.this, display_info.class);
                 id = dbh.Marker_Id(marker.getPosition());
                 intent.putExtra("id", id);
                 ///////////////////////////////////////////////////
 
-                finish();//baraye inke dota activity az in safe nadashte bashim
                 startActivity(intent);
             }
         });

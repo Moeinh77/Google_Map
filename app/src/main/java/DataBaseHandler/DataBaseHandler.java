@@ -54,7 +54,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         //converting bitmap to byte[] array
-        values.put(Constans.Bitmap_NAME,DbBitmapUtility.getBytes(model.getBitmap()));
+        values.put(Constans.Bitmap_NAME,model.getBitmap());
         /////////////////////
 
         values.put(Constans.MARKER_TITLE, model.getTitle());
@@ -93,7 +93,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 marker_model model = new marker_model();
 
                 //Getting Bitmap fromdb
-                model.setBitmap(DbBitmapUtility.getImage(cursor.getBlob(cursor.getColumnIndex(Constans.Bitmap_NAME))));
+                model.setBitmap(cursor.getBlob(cursor.getColumnIndex(Constans.Bitmap_NAME)));
                 //////////////////////////////
                 Log.d(TAG, "getObjects: bitmap set");
 

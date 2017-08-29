@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hasani.moein.taan.events.loading">
+    tools:context="com.hasani.moein.taan.events.loading"
+    android:background="@drawable/loading">
     <pl.droidsonroids.gif.GifTextView
         android:layout_width="353dp"
         android:layout_height="287dp"

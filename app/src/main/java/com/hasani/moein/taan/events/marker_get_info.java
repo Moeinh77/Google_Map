@@ -55,7 +55,7 @@ public class marker_get_info extends AppCompatActivity {
         //karbar aksi entekhab nakard in ra be onvan marker namayesh dahim agar ham ke aksi ra dar func bad
         //entekhab kar an aks jaygozine in mishavad
         ByteArrayOutputStream os2 = new ByteArrayOutputStream();
-        resizeMapIcons("bluemarker", 60, 100).compress(Bitmap.CompressFormat.JPEG,50,os2);
+        resizeMapIcons("bluemarker", 60, 100).compress(Bitmap.CompressFormat.JPEG,70,os2);
 
         markerModel.setBitmap(os2.toByteArray());
         /////////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ public class marker_get_info extends AppCompatActivity {
                 Bitmap bitmap = drawable.getBitmap();
                 //changing the quality
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,50,os);
+                bitmap.compress(Bitmap.CompressFormat.JPEG,70,os);
                 ///////////////////////////////////////////////////////////////////////
                markerModel.setBitmap(os.toByteArray());
                // markerModel.setBitmap(bitmap);

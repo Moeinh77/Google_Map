@@ -1,4 +1,4 @@
-package com.hasani.moein.taan.finaltestmap;
+package com.hasani.moein.taan.events;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,10 +14,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
 import com.google.android.gms.maps.model.LatLng;
+
+import java.io.ByteArrayOutputStream;
 
 import DataBaseHandler.DataBaseHandler;
 import DataBaseHandler.marker_model;
+import Map_Utilities.DbBitmapUtility;
+
 
 public class marker_get_info extends AppCompatActivity {
 
@@ -29,7 +34,6 @@ public class marker_get_info extends AppCompatActivity {
     private int request_code = 1;
     private ImageView testview;
     private marker_model markerModel = new marker_model();
-    //private EditText view;
 
 
     @Override
@@ -50,23 +54,34 @@ public class marker_get_info extends AppCompatActivity {
         //injabe soorate default yek aks e marker ra be object midahim ke be onvan bitmap ash bashad ke agar
         //karbar aksi entekhab nakard in ra be onvan marker namayesh dahim agar ham ke aksi ra dar func bad
         //entekhab kar an aks jaygozine in mishavad
-        markerModel.setBitmap(resizeMapIcons("bluemarker",60,100));
+        ByteArrayOutputStream os2 = new ByteArrayOutputStream();
+        resizeMapIcons("bluemarker", 60, 100).compress(Bitmap.CompressFormat.JPEG,70,os2);
+
+        markerModel.setBitmap(os2.toByteArray());
         /////////////////////////////////////////////////////////////
 
         choose_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //Getting readable Uri
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-                startActivityForResult(intent, request_code);
-                /////////////////////////
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+                try {
+                    startActivityForResult(
+                            Intent.createChooser(intent, "Select a File to Upload"), request_code);
+                } catch (android.content.ActivityNotFoundException ex) {
+                     //Potentially direct the user to the Market with a Dialog
+                    Toast.makeText(getApplication(), "Please install a File Manager.",Toast.LENGTH_SHORT).show();
+                }
+                //Getting readable Uri
+//                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+//                intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                intent.setType("image/*");
+//                startActivityForResult(intent, request_code);
+//                /////////////////////////
             }
         });
-
-
 
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +109,7 @@ public class marker_get_info extends AppCompatActivity {
                     Log.d(TAG, " get_info onClick:Marker added to db ");
 
                     finish();
-                    Intent i = new Intent(marker_get_info.this, findonmap.class);
+                    Intent i = new Intent(marker_get_info.this, Main_MAP.class);
                     startActivity(i);
                 }
             }
@@ -111,18 +126,23 @@ public class marker_get_info extends AppCompatActivity {
 
                 Uri photoFileUri = data.getData();
                 testview.setImageURI(photoFileUri);
+
                 markerModel.setImageaddress(photoFileUri);
+                Log.v(TAG, "onActivityResult: Uri set *****");
 
                 //vaghti bar asase Uri aks ra entekhab kardim hala aksi ke dar image view kenar dokme choose
                 //gozashtim ra tabdil be bitmap mikonim va dar object save mikonim ta dar db save shavad
                 BitmapDrawable drawable = (BitmapDrawable) testview.getDrawable();
                 Bitmap bitmap = drawable.getBitmap();
-
-                markerModel.setBitmap(bitmap);
+                //changing the quality
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,70,os);
+                ///////////////////////////////////////////////////////////////////////
+               markerModel.setBitmap(os.toByteArray());
+               // markerModel.setBitmap(bitmap);
                 Log.d(TAG, "onActivityResult:Bitmap Set*****");
                 //////////////////////////////////////////////////////////////////////////////////////////
 
-                Log.d(TAG, "onActivityResult: Uri set *****");
                 super.onActivityResult(requestCode, resultCode, data);
             }
         }
@@ -130,6 +150,12 @@ public class marker_get_info extends AppCompatActivity {
     ///////////////////////////////////////////////////////////////
 
 
+    @Override
+    protected void onDestroy() {
+        Intent i = new Intent(marker_get_info.this, Main_MAP.class);
+        startActivity(i);
+        super.onDestroy();
+    }
 
     //taghire size bitmap ha ba gereftan address anha (bar asas name peyda mikond)
     public Bitmap resizeMapIcons(String iconName, int width, int height) {

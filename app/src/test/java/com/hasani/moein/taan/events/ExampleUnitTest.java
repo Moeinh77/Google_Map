@@ -1,4 +1,4 @@
-package com.hasani.moein.taan.finaltestmap;
+package com.hasani.moein.taan.events;
 
 import org.junit.Test;
 

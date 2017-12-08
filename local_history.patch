@@ -1,0 +1,27 @@
+Index: app/src/main/java/com/hasani/moein/taan/finaltestmap/findonmap.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/hasani/moein/taan/finaltestmap/findonmap.java	(revision )
++++ app/src/main/java/com/hasani/moein/taan/finaltestmap/findonmap.java	(revision )
+@@ -43,17 +43,8 @@
+         SupportMapFragment MmapFragment = (SupportMapFragment) getSupportFragmentManager()
+                 .findFragmentById(R.id.map);
+         MmapFragment.getMapAsync(this);
+-//        mapFragment = (MapFragment) getFragmentManager().findFragmentByTag(MAP_FRAGMENT_TAG);
+-//
+-//        if (mapFragment == null) {
+-//            mapFragment = MapFragment.newInstance();
+-//            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+-//            fragmentTransaction.add(R.id.map, mapFragment, MAP_FRAGMENT_TAG);
+-//            fragmentTransaction.commit();
+-//        }
+ 
+-
++        
+-        onMapReady(mMap);
+     }
+ 
+     @Override
+\ No newline at end of file
